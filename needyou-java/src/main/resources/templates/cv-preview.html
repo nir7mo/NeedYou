@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Preview - NeedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="nav"><div class="container"><div class="logo">Need<span>You</span></div><button class="nav-menu-toggle" type="button" aria-label="Menu" aria-expanded="false" data-nav-toggle>☰</button><div id="lang-tools"></div><div class="nav-links" data-nav-links><a href="/">Home</a><a href="/dashboard">Dashboard</a><a href="/job-analyzer">Jobs</a></div></div></div>
+<div class="container section"><div class="card">
+<h2>CV Preview</h2>
+<p>Use this page after generation from Job Analyzer.</p>
+<p>CV ID: <span id="cvId"></span></p>
+<button class="btn btn-primary" onclick="downloadPdf()">Download PDF</button>
+<button class="btn btn-soft" onclick="openPublicCv()">Open Public CV</button>
+<pre id="out" class="muted"></pre>
+</div></div>
+<script src="/js/app.js"></script>
+<script>
+const cvId = localStorage.getItem('latestCvId');
+const cvSlug = localStorage.getItem('latestCvSlug');
+cvId && (document.getElementById('cvId').textContent = cvId);
+if(cvId){ NeedYou.api('/api/cv/'+cvId).then(d=>out.textContent=JSON.stringify(d,null,2)).catch(e=>out.textContent=e.message); }
+function downloadPdf(){ if(cvId) window.open('/api/cv/'+cvId+'/pdf','_blank'); }
+function openPublicCv(){ if(cvSlug) window.open('/p/'+cvSlug,'_blank'); }
+applyI18n(); renderLanguageAndCurrency(); initResponsiveNav();
+</script>
+</body></html>

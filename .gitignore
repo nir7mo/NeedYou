@@ -1,0 +1,4 @@
+﻿openJdk-25/
+.vscode/
+*.log
+node_modules/

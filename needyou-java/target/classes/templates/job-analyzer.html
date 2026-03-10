@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Analyzer - NeedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="nav"><div class="container"><div class="logo">Need<span>You</span></div><div id="lang-tools"></div></div></div>
+<div class="container section">
+<div class="card">
+  <h2 data-i18n="job_title"></h2>
+  <input id="jobUrl" placeholder="Job URL (optional)">
+  <textarea id="jobDesc" placeholder="Job description"></textarea>
+  <p class="muted" data-i18n="note_textarea"></p>
+  <label data-i18n="output_lang"></label>
+  <select id="lang"><option value="AR">AR</option><option value="FR">FR</option><option value="EN">EN</option></select>
+  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-primary" onclick="analyze()">Analyze</button>
+    <button class="btn btn-soft" onclick="generateCv()">Generate CV</button>
+    <button class="btn btn-soft" onclick="generateLetter()">Generate Letter</button>
+    <button class="btn btn-soft" onclick="scoreCv()">Score CV</button>
+  </div>
+  <p id="msg" class="muted"></p>
+  <pre id="out" class="muted"></pre>
+</div>
+
+<div class="card" style="margin-top:12px;">
+  <h3>Email Outreach</h3>
+  <input id="companyName" placeholder="Company name">
+  <input id="recipientEmail" placeholder="recipient@company.com">
+  <input id="subject" placeholder="Subject">
+  <textarea id="message" placeholder="Message"></textarea>
+  <p class="muted" data-i18n="note_textarea"></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <label><input type="checkbox" id="attachCv" checked> Attach CV</label>
+    <label><input type="checkbox" id="attachLetter" checked> Attach Letter</label>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px;">
+    <button class="btn btn-soft" onclick="previewOutreach()">Preview</button>
+    <button class="btn btn-primary" onclick="sendOutreach()">Send</button>
+  </div>
+  <pre id="mailOut" class="muted"></pre>
+</div>
+</div>
+<script src="/js/app.js"></script>
+<script>
+let analysisId = null; let cvId = null; let letterId = null;
+async function analyze(){
+  try{
+    const d = await NeedYou.api('/api/jobs/analyze',{method:'POST',body:JSON.stringify({jobUrl:jobUrl.value,jobDescription:jobDesc.value,outputLanguage:lang.value})});
+    analysisId = d.analysisId; out.textContent = JSON.stringify(d,null,2); msg.textContent='Analyzed';
+  }catch(e){msg.textContent=e.message;}
+}
+async function generateCv(){
+  try{
+    const d = await NeedYou.api('/api/cv/generate',{method:'POST',body:JSON.stringify({analysisId,language:lang.value})});
+    cvId = d.cvId; out.textContent = JSON.stringify(d,null,2);
+    localStorage.setItem('latestCvId', cvId); localStorage.setItem('latestCvSlug', d.publicSlug);
+  }catch(e){msg.textContent=e.message;}
+}
+async function generateLetter(){
+  try{
+    const d = await NeedYou.api('/api/letters/generate',{method:'POST',body:JSON.stringify({analysisId,language:lang.value})});
+    letterId = d.id; out.textContent = JSON.stringify(d,null,2);
+  }catch(e){msg.textContent=e.message;}
+}
+async function scoreCv(){
+  try{
+    const d = await NeedYou.api('/api/cv/score',{method:'POST',body:JSON.stringify({analysisId,cvId,outputLanguage:lang.value})});
+    out.textContent = JSON.stringify(d,null,2);
+  }catch(e){msg.textContent=e.message;}
+}
+async function previewOutreach(){
+  try{
+    const d = await NeedYou.api('/api/outreach/preview',{method:'POST',body:JSON.stringify(payload())});
+    mailOut.textContent = JSON.stringify(d,null,2);
+  }catch(e){mailOut.textContent=e.message;}
+}
+async function sendOutreach(){
+  try{
+    const d = await NeedYou.api('/api/outreach/send',{method:'POST',body:JSON.stringify(payload())});
+    mailOut.textContent = JSON.stringify(d,null,2);
+  }catch(e){mailOut.textContent=e.message;}
+}
+function payload(){
+  return {
+    companyName: companyName.value,
+    recipientEmail: recipientEmail.value,
+    subject: subject.value,
+    message: message.value,
+    language: lang.value,
+    generatedCvId: cvId,
+    generatedLetterId: letterId,
+    uploadedDocumentIds: [],
+    attachCv: attachCv.checked,
+    attachLetter: attachLetter.checked
+  };
+}
+applyI18n(); renderLanguageAndCurrency();
+</script>
+</body></html>
+

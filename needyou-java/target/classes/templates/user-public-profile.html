@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeedYou Public Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="container section">
+  <div class="card">
+    <h1 th:text="${p.fullName}">Full Name</h1>
+    <p class="muted" th:text="${p.headline}">Headline</p>
+    <p th:text="${p.summary}">Summary</p>
+    <h3>Skills</h3>
+    <ul><li th:each="s : ${p.skills}" th:text="${s.name}"></li></ul>
+    <h3>Experience</h3>
+    <ul><li th:each="e : ${p.experiences}" th:text="${e.title + ' - ' + e.company}"></li></ul>
+    <h3>Education</h3>
+    <ul><li th:each="e : ${p.education}" th:text="${e.degree + ' - ' + e.institution}"></li></ul>
+    <h3>Projects</h3>
+    <ul><li th:each="pr : ${p.projects}" th:text="${pr.name}"></li></ul>
+    <h3>Certificates</h3>
+    <ul><li th:each="c : ${p.certificates}" th:text="${c.name}"></li></ul>
+    <p class="muted" th:text="${p.countryCode + ' / ' + p.stateCode + ' / ' + p.city}"></p>
+  </div>
+</div>
+</body></html>

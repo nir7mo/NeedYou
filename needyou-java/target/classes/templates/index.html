@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeedYou - Smart Career SaaS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <div class="nav">
+    <div class="container">
+      <div class="logo">Need<span>You</span></div>
+      <div id="lang-tools"></div>
+      <div class="nav-links">
+        <a href="/" data-i18n="nav_home"></a>
+        <a href="/dashboard" data-i18n="nav_dashboard"></a>
+        <a href="/job-analyzer" data-i18n="nav_job"></a>
+        <a href="/login" data-i18n="nav_login"></a>
+        <a href="/register" class="btn btn-primary" data-i18n="nav_start"></a>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero container">
+    <div class="hero-grid">
+      <div class="card">
+        <span class="badge">NeedYou SaaS</span>
+        <h1 data-i18n="hero_title"></h1>
+        <p class="muted" data-i18n="hero_sub"></p>
+        <p>
+          <a href="/register" class="btn btn-primary" data-i18n="nav_start"></a>
+          <a href="/login" class="btn btn-soft" data-i18n="nav_login"></a>
+        </p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="plans_title"></h3>
+        <div id="plans" class="grid-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">© 2026 NeedYou</div>
+  <script src="/js/app.js"></script>
+  <script>
+    function renderPricing(){
+      const plans = [
+        {key:'FREE',title:t('plan_free'),desc:t('plan_free_desc'),price:money('FREE')},
+        {key:'PRO_PERSONAL',title:t('plan_pro'),desc:t('plan_pro_desc'),price:money('PRO_PERSONAL')},
+        {key:'BUSINESS',title:t('plan_business'),desc:t('plan_business_desc'),price:money('BUSINESS')}
+      ];
+      plansEl.innerHTML = plans.map(p => `
+        <div class="card">
+          <h4>${p.title}</h4>
+          <p class="muted">${p.desc}</p>
+          <p><b>${p.price}</b></p>
+          <button class="btn btn-soft" onclick="selectPlan('${p.key}')">Select</button>
+        </div>`).join('');
+    }
+    async function selectPlan(plan){
+      try{
+        if(!NeedYou.getToken()){ location.href='/login'; return; }
+        await NeedYou.api('/api/account/preferences',{method:'PUT',body:JSON.stringify({plan})});
+        alert('Plan updated: ' + plan);
+      }catch(e){ alert(e.message); }
+    }
+    const plansEl = document.getElementById('plans');
+    applyI18n();
+    renderLanguageAndCurrency();
+    renderPricing();
+  </script>
+</body>
+</html>
