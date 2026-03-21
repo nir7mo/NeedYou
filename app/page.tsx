@@ -74,20 +74,20 @@ export default function Home() {
 
             <div className="hero-stats">
               <div className="stat">
-                <strong>+3K</strong>
-                <span>سير ذاتية احترافية تم إنشاؤها</span>
+                <strong>سير احترافية</strong>
+                <span>مخصصة لكل وظيفة وبجودة قابلة للمراجعة</span>
               </div>
               <div className="stat">
-                <strong>92%</strong>
-                <span>رضا المستخدمين عن النتائج</span>
+                <strong>رضا المستخدمين</strong>
+                <span>مبني على ملاحظات حقيقية وتحسينات مستمرة</span>
               </div>
               <div className="stat">
-                <strong>24H</strong>
-                <span>دعم واستشارات سريعة</span>
+                <strong>دعم سريع</strong>
+                <span>استجابة واضحة مع متابعة حتى اكتمال الطلب</span>
               </div>
               <div className="stat">
-                <strong>10+</strong>
-                <span>قوالب حديثة ومتوافقة مع ATS</span>
+                <strong>قوالب حديثة</strong>
+                <span>متوافقة مع ATS وفق أفضل الممارسات</span>
               </div>
             </div>
           </div>
