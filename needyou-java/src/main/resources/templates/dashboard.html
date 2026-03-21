@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - NeedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="nav"><div class="container"><div class="logo">Need<span>You</span></div><button class="nav-menu-toggle" type="button" aria-label="Menu" aria-expanded="false" data-nav-toggle>☰</button><div id="lang-tools"></div><div class="nav-links" data-nav-links><a href="/">Home</a><a href="/dashboard">Dashboard</a><a href="/onboarding">Profile</a><a href="/job-analyzer">Jobs</a></div></div></div>
+<div class="container section">
+<div class="grid-2">
+<div class="card">
+  <h3>Account</h3>
+  <pre id="account" class="muted"></pre>
+  <select id="planSel"><option value="FREE">FREE</option><option value="PRO_PERSONAL">PRO_PERSONAL</option><option value="BUSINESS">BUSINESS</option></select>
+  <button class="btn btn-soft" onclick="updatePlan()">Update Plan</button>
+
+  <h4>Personal Info</h4>
+  <input id="fullName" placeholder="Full name"><input id="phone" placeholder="Phone">
+  <button class="btn btn-soft" onclick="updatePersonal()">Update Personal Info</button>
+  <p class="muted">In PRO_PERSONAL, core personal info becomes locked for personal-only usage policy.</p>
+</div>
+<div class="card">
+  <h3>Profile</h3>
+  <pre id="profile" class="muted"></pre>
+  <label>Visibility</label>
+  <select id="vis"><option>PRIVATE</option><option>LINK_ONLY</option><option>PUBLIC</option></select>
+  <button class="btn btn-soft" onclick="setVisibility()">Save visibility</button>
+  <p id="pubLink" class="muted"></p>
+  <div class="action-row"><a href="/onboarding" class="btn btn-primary">Edit Profile</a><a href="/job-analyzer" class="btn btn-soft">Analyze Jobs</a></div>
+</div>
+</div>
+
+<div class="card" style="margin-top:12px;">
+  <h3>Business Workspace (Partner Plan)</h3>
+  <p class="muted">Create and manage multiple client profiles for commercial usage.</p>
+  <input id="bpName" placeholder="Client full name">
+  <button class="btn btn-soft" onclick="createBusinessProfile()">Create</button>
+  <button class="btn btn-soft" onclick="loadBusinessProfiles()">Refresh</button>
+  <pre id="bpOut" class="muted"></pre>
+</div>
+
+</div>
+<script src="/js/app.js"></script>
+<script>
+async function loadAll(){
+  try{
+    const a = await NeedYou.api('/api/account/me');
+    account.textContent = JSON.stringify(a,null,2);
+    fullName.value = a.fullName || ''; phone.value = a.phone || ''; planSel.value = a.plan || 'FREE';
+    const p = await NeedYou.api('/api/profile');
+    profile.textContent = JSON.stringify(p,null,2);
+    vis.value = p.visibility || 'PRIVATE';
+    pubLink.textContent = 'Public profile: ' + location.origin + '/u/' + p.publicSlug;
+    if(a.plan === 'BUSINESS'){ loadBusinessProfiles(); }
+  }catch(e){account.textContent=e.message; profile.textContent=e.message;}
+}
+async function updatePlan(){
+  try{ await NeedYou.api('/api/account/preferences',{method:'PUT',body:JSON.stringify({plan:planSel.value})}); loadAll(); }
+  catch(e){alert(e.message);}
+}
+async function updatePersonal(){
+  try{ await NeedYou.api('/api/account/personal-info',{method:'PUT',body:JSON.stringify({fullName:fullName.value,phone:phone.value})}); loadAll(); }
+  catch(e){alert(e.message);}
+}
+async function setVisibility(){
+  try{ await NeedYou.api('/api/profile/public-settings',{method:'PUT',body:JSON.stringify({visibility:vis.value})}); loadAll(); }
+  catch(e){alert(e.message);}
+}
+async function createBusinessProfile(){
+  try{
+    await NeedYou.api('/api/business/profiles',{method:'POST',body:JSON.stringify({
+      fullName:bpName.value, phone:'', headline:'', summary:'', countryCode:'DZ', stateCode:'16', city:'Alger'
+    })});
+    await loadBusinessProfiles();
+  }catch(e){ bpOut.textContent = e.message; }
+}
+async function loadBusinessProfiles(){
+  try{ const all = await NeedYou.api('/api/business/profiles'); bpOut.textContent = JSON.stringify(all,null,2); }
+  catch(e){ bpOut.textContent = e.message; }
+}
+applyI18n(); renderLanguageAndCurrency(); initResponsiveNav(); loadAll();
+</script>
+</body></html>

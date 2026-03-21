@@ -1,0 +1,34 @@
+﻿{
+  "countries": [
+    {
+      "code": "DZ",
+      "name_ar": "الجزائر",
+      "name_en": "Algeria",
+      "name_fr": "Algérie",
+      "states": [
+        {"code": "16", "name_ar": "الجزائر", "name_en": "Algiers", "name_fr": "Alger", "cities": ["Alger Centre", "Bab Ezzouar", "Hydra"]},
+        {"code": "31", "name_ar": "وهران", "name_en": "Oran", "name_fr": "Oran", "cities": ["Oran", "Bir El Djir", "Es Senia"]},
+        {"code": "25", "name_ar": "قسنطينة", "name_en": "Constantine", "name_fr": "Constantine", "cities": ["Constantine", "El Khroub"]},
+        {"code": "09", "name_ar": "البليدة", "name_en": "Blida", "name_fr": "Blida", "cities": ["Blida", "Boufarik"]}
+      ]
+    },
+    {
+      "code": "FR",
+      "name_ar": "فرنسا",
+      "name_en": "France",
+      "name_fr": "France",
+      "states": [
+        {"code": "IDF", "name_ar": "إيل دو فرانس", "name_en": "Ile-de-France", "name_fr": "Ile-de-France", "cities": ["Paris", "Nanterre"]}
+      ]
+    },
+    {
+      "code": "US",
+      "name_ar": "الولايات المتحدة",
+      "name_en": "United States",
+      "name_fr": "Etats-Unis",
+      "states": [
+        {"code": "CA", "name_ar": "كاليفورنيا", "name_en": "California", "name_fr": "Californie", "cities": ["San Francisco", "Los Angeles"]}
+      ]
+    }
+  ]
+}

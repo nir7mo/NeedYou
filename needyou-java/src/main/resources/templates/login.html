@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - NeedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="nav"><div class="container"><div class="logo">Need<span>You</span></div><button class="nav-menu-toggle" type="button" aria-label="Menu" aria-expanded="false" data-nav-toggle>☰</button><div id="lang-tools"></div><div class="nav-links" data-nav-links><a href="/">Home</a><a href="/register">Register</a></div></div></div>
+<div class="container section"><div class="card" style="max-width:520px;margin:auto;">
+<h2>Login</h2>
+<input id="email" placeholder="email@domain.com"><input id="password" type="password" placeholder="password" style="margin-top:8px;">
+<button class="btn btn-primary" style="margin-top:8px;" onclick="loginUser()">Login</button>
+<p id="msg" class="muted"></p>
+</div></div>
+<script src="/js/app.js"></script>
+<script>
+async function loginUser(){
+  try{
+    const data = await NeedYou.api('/api/auth/login',{method:'POST',body:JSON.stringify({email:email.value,password:password.value})});
+    NeedYou.setToken(data.token);
+    NeedYou.setUiLang(data.uiLanguage || NeedYou.getUiLang());
+    if(!data.emailVerified){ msg.textContent='Email not verified'; }
+    location.href='/dashboard';
+  }catch(e){msg.textContent=e.message;}
+}
+applyI18n(); renderLanguageAndCurrency(); initResponsiveNav();
+</script>
+</body></html>

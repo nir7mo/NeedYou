@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding - NeedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/app.css">
+</head><body>
+<div class="nav"><div class="container"><div class="logo">Need<span>You</span></div><div id="lang-tools"></div></div></div>
+<div class="container section"><div class="card">
+<h2 data-i18n="onboarding_title"></h2>
+<div class="grid-3">
+  <select id="country"></select>
+  <select id="state"></select>
+  <select id="city"></select>
+</div>
+<input id="headline" placeholder="Professional headline" style="margin-top:8px;">
+<textarea id="summary" placeholder="Professional summary"></textarea>
+<p class="muted" data-i18n="note_textarea"></p>
+
+<h3>Skills <button class="btn btn-soft" onclick="addSkill()">+ Add</button></h3>
+<div id="skills"></div>
+
+<h3>Tools <button class="btn btn-soft" onclick="addTool()">+ Add</button></h3>
+<div id="tools"></div>
+
+<h3>Experiences <button class="btn btn-soft" onclick="addExp()">+ Add</button></h3>
+<div id="exps"></div>
+
+<h3>Education <button class="btn btn-soft" onclick="addEdu()">+ Add</button></h3>
+<div id="edus"></div>
+
+<h3>Projects <button class="btn btn-soft" onclick="addProject()">+ Add</button></h3>
+<div id="projects"></div>
+
+<h3>Certificates <button class="btn btn-soft" onclick="addCert()">+ Add</button></h3>
+<div id="certs"></div>
+
+<h3>Languages <button class="btn btn-soft" onclick="addLang()">+ Add</button></h3>
+<div id="langs"></div>
+
+<h3>Optional attachments</h3>
+<input type="file" id="attachment">
+<button class="btn btn-soft" onclick="uploadOptional()">Upload (Optional)</button>
+<p id="uploadMsg" class="muted"></p>
+
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProfile()">Save Profile</button>
+<p id="msg" class="muted"></p>
+</div></div>
+<script src="/js/app.js"></script>
+<script>
+const stateData = { skills:[], tools:[], exps:[], edus:[], projects:[], certs:[], langs:[] };
+
+function row(html){ const d = document.createElement('div'); d.className='card'; d.style.margin='6px 0'; d.innerHTML = html; return d; }
+function bindList(container, arr, render){
+  const el = document.getElementById(container);
+  el.innerHTML='';
+  arr.forEach((item,idx)=>{
+    const r = row(render(item, idx));
+    el.appendChild(r);
+  });
+}
+
+function addSkill(){ stateData.skills.push({name:'',level:''}); renderAll(); }
+function addTool(){ stateData.tools.push({name:'',level:''}); renderAll(); }
+function addExp(){ stateData.exps.push({title:'',company:'',description:''}); renderAll(); }
+function addEdu(){ stateData.edus.push({institution:'',degree:'',fieldOfStudy:''}); renderAll(); }
+function addProject(){ stateData.projects.push({name:'',description:'',url:''}); renderAll(); }
+function addCert(){ stateData.certs.push({name:'',issuer:'',issueDate:''}); renderAll(); }
+function addLang(){ stateData.langs.push({code:'AR',level:''}); renderAll(); }
+
+function del(arr, idx){ arr.splice(idx,1); renderAll(); }
+function upd(arr, idx, k, v){ arr[idx][k]=v; }
+
+function renderAll(){
+  bindList('skills', stateData.skills, (x,i)=>`<input value="${x.name}" placeholder="Skill" oninput="upd(stateData.skills,${i},'name',this.value)"><input value="${x.level||''}" placeholder="Level" oninput="upd(stateData.skills,${i},'level',this.value)"><button class='btn btn-soft' onclick='del(stateData.skills,${i})'>Delete</button>`);
+  bindList('tools', stateData.tools, (x,i)=>`<input value="${x.name}" placeholder="Tool" oninput="upd(stateData.tools,${i},'name',this.value)"><input value="${x.level||''}" placeholder="Level" oninput="upd(stateData.tools,${i},'level',this.value)"><button class='btn btn-soft' onclick='del(stateData.tools,${i})'>Delete</button>`);
+  bindList('exps', stateData.exps, (x,i)=>`<input value="${x.title}" placeholder="Role" oninput="upd(stateData.exps,${i},'title',this.value)"><input value="${x.company}" placeholder="Company" oninput="upd(stateData.exps,${i},'company',this.value)"><textarea placeholder='Description' oninput="upd(stateData.exps,${i},'description',this.value)">${x.description||''}</textarea><p class='muted'>${t('note_textarea')}</p><button class='btn btn-soft' onclick='del(stateData.exps,${i})'>Delete</button>`);
+  bindList('edus', stateData.edus, (x,i)=>`<input value="${x.institution}" placeholder="Institution" oninput="upd(stateData.edus,${i},'institution',this.value)"><input value="${x.degree}" placeholder="Degree" oninput="upd(stateData.edus,${i},'degree',this.value)"><button class='btn btn-soft' onclick='del(stateData.edus,${i})'>Delete</button>`);
+  bindList('projects', stateData.projects, (x,i)=>`<input value="${x.name}" placeholder="Project" oninput="upd(stateData.projects,${i},'name',this.value)"><textarea placeholder='Description' oninput="upd(stateData.projects,${i},'description',this.value)">${x.description||''}</textarea><p class='muted'>${t('note_textarea')}</p><button class='btn btn-soft' onclick='del(stateData.projects,${i})'>Delete</button>`);
+  bindList('certs', stateData.certs, (x,i)=>`<input value="${x.name}" placeholder="Certificate" oninput="upd(stateData.certs,${i},'name',this.value)"><input value="${x.issuer||''}" placeholder="Issuer" oninput="upd(stateData.certs,${i},'issuer',this.value)"><button class='btn btn-soft' onclick='del(stateData.certs,${i})'>Delete</button>`);
+  bindList('langs', stateData.langs, (x,i)=>`<select onchange="upd(stateData.langs,${i},'code',this.value)"><option ${x.code==='AR'?'selected':''}>AR</option><option ${x.code==='FR'?'selected':''}>FR</option><option ${x.code==='EN'?'selected':''}>EN</option></select><input value="${x.level||''}" placeholder="Level" oninput="upd(stateData.langs,${i},'level',this.value)"><button class='btn btn-soft' onclick='del(stateData.langs,${i})'>Delete</button>`);
+}
+
+let countries=[];
+async function initLocations(){
+  countries = await NeedYou.api('/api/locations');
+  country.innerHTML = countries.map(c=>`<option value='${c.code}'>${c.nameAr} / ${c.nameEn}</option>`).join('');
+  country.onchange = fillStates;
+  state.onchange = fillCities;
+  fillStates();
+}
+function fillStates(){
+  const c = countries.find(x=>x.code===country.value) || countries[0];
+  state.innerHTML = (c?.states||[]).map(s=>`<option value='${s.code}'>${s.nameAr} / ${s.nameEn}</option>`).join('');
+  fillCities();
+}
+function fillCities(){
+  const c = countries.find(x=>x.code===country.value);
+  const s = (c?.states||[]).find(x=>x.code===state.value);
+  city.innerHTML = (s?.cities||[]).map(ci=>`<option value='${ci}'>${ci}</option>`).join('');
+}
+
+async function uploadOptional(){
+  try{
+    const f = attachment.files[0];
+    if(!f){ uploadMsg.textContent='No file selected'; return; }
+    const fd = new FormData(); fd.append('file', f);
+    const res = await fetch('/api/profile/attachments',{method:'POST',headers:{Authorization:`Bearer ${NeedYou.getToken()}`},body:fd});
+    const data = await res.json();
+    uploadMsg.textContent = data.message || ('Uploaded: ' + data.fileName);
+  }catch(e){ uploadMsg.textContent=e.message; }
+}
+
+async function saveProfile(){
+  try{
+    await NeedYou.api('/api/profile',{method:'PUT',body:JSON.stringify({
+      headline: headline.value,
+      summary: summary.value,
+      countryCode: country.value,
+      stateCode: state.value,
+      city: city.value,
+      skills: stateData.skills,
+      tools: stateData.tools,
+      experiences: stateData.exps,
+      education: stateData.edus,
+      projects: stateData.projects,
+      certificates: stateData.certs,
+      languages: stateData.langs,
+      linkedinUrl:'', portfolioUrl:''
+    })});
+    msg.textContent='Saved';
+    setTimeout(()=>location.href='/dashboard',600);
+  }catch(e){ msg.textContent=e.message; }
+}
+
+applyI18n(); renderLanguageAndCurrency(); renderAll(); initLocations();
+</script>
+</body></html>
