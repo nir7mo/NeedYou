@@ -14,7 +14,7 @@ export default function Pricing() {
           <p>{t.pricing.description}</p>
         </div>
         <div className="pricing-cards">
-          {t.pricing.plans.map((plan) => {
+          {t.pricing.plans.map((plan, index) => {
             const popular = "popular" in plan ? plan.popular : undefined;
             const subtitle = "subtitle" in plan ? plan.subtitle : undefined;
             const note = "note" in plan ? plan.note : undefined;
@@ -25,6 +25,12 @@ export default function Pricing() {
                 : tone === "business"
                 ? "btn btn-light btn-block business-btn"
                 : "btn btn-light btn-block";
+            const href =
+              index === 0
+                ? "/checkout?plan=free"
+                : index === 1
+                ? "/checkout?plan=professional"
+                : "/checkout?plan=partner";
             return (
             <div className={`price-card ${popular ? "featured" : ""}`} key={plan.name}>
               {popular && <div className="popular">{popular}</div>}
@@ -38,16 +44,7 @@ export default function Pricing() {
                 ))}
               </ul>
               {note && <div className="plan-note">{note}</div>}
-              <Link
-                className={buttonClass}
-                href={
-                  plan.name === "مجاني" || plan.name === "Free" || plan.name === "Gratuit"
-                    ? "/signup"
-                    : plan.name === "احترافي" || plan.name === "Professional" || plan.name === "Professionnel"
-                    ? "/signup?plan=professional"
-                    : "/signup?plan=partner"
-                }
-              >
+              <Link className={buttonClass} href={href}>
                 {plan.cta}
               </Link>
             </div>

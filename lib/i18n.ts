@@ -253,7 +253,7 @@ export const translations: Record<Language, Translations> = {
         {
           name: "الشريك",
           subtitle: "للاستخدام التجاري وإدارة عدة مترشحين",
-          price: "3000 دج",
+          price: "4900 دج",
           period: "شهريًا",
           features: [
             "استخدام غير محدود",
@@ -505,7 +505,7 @@ export const translations: Record<Language, Translations> = {
         {
           name: "Partenaire",
           subtitle: "Pour usage commercial et multi clients",
-          price: "3000 دج",
+          price: "4900 دج",
           period: "par mois",
           features: [
             "Utilisation illimitée",
@@ -756,7 +756,7 @@ export const translations: Record<Language, Translations> = {
         {
           name: "Partner",
           subtitle: "For commercial and multi client use",
-          price: "3000 دج",
+          price: "4900 دج",
           period: "per month",
           features: [
             "Unlimited usage",
