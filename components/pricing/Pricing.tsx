@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/components/layout/LanguageProvider";
 
 export default function Pricing() {
@@ -37,7 +38,18 @@ export default function Pricing() {
                 ))}
               </ul>
               {note && <div className="plan-note">{note}</div>}
-              <button className={buttonClass}>{plan.cta}</button>
+              <Link
+                className={buttonClass}
+                href={
+                  plan.name === "مجاني" || plan.name === "Free" || plan.name === "Gratuit"
+                    ? "/signup"
+                    : plan.name === "احترافي" || plan.name === "Professional" || plan.name === "Professionnel"
+                    ? "/signup?plan=professional"
+                    : "/signup?plan=partner"
+                }
+              >
+                {plan.cta}
+              </Link>
             </div>
           )})}
         </div>
