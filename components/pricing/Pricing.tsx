@@ -13,9 +13,11 @@ export default function Pricing() {
           <p>{t.pricing.description}</p>
         </div>
         <div className="pricing-cards">
-          {t.pricing.plans.map((plan) => (
-            <div className={`price-card ${plan.popular ? "featured" : ""}`} key={plan.name}>
-              {plan.popular && <div className="popular">{plan.popular}</div>}
+          {t.pricing.plans.map((plan) => {
+            const popular = "popular" in plan ? plan.popular : undefined;
+            return (
+            <div className={`price-card ${popular ? "featured" : ""}`} key={plan.name}>
+              {popular && <div className="popular">{popular}</div>}
               <h3>{plan.name}</h3>
               <div className="price">{plan.price}</div>
               <div className="period">{plan.period}</div>
@@ -26,7 +28,7 @@ export default function Pricing() {
               </ul>
               <button className="btn btn-light btn-block">{plan.cta}</button>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>
