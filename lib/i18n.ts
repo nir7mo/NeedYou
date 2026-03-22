@@ -1,7 +1,5 @@
 export type Language = "ar" | "fr" | "en";
 
-export type Translations = (typeof translations)[Language];
-
 export const translations = {
   ar: {
     nav: {
@@ -23,8 +21,7 @@ export const translations = {
     },
     how: {
       title: "خطوات واضحة لإنشاء ملف مهني جاهز للتقديم",
-      description:
-        "أربع مراحل بسيطة تبني بها ملفك، ثم تخصصه بسرعة لأي وظيفة.",
+      description: "أربع مراحل بسيطة تبني بها ملفك، ثم تخصصه بسرعة لأي وظيفة.",
       steps: [
         {
           title: "سجل حسابك",
@@ -46,8 +43,7 @@ export const translations = {
     },
     features: {
       title: "مزايا أساسية تقودك لنتائج أفضل",
-      description:
-        "منصة واحدة تجمع إنشاء السيرة والتحليل والرسائل التحفيزية.",
+      description: "منصة واحدة تجمع إنشاء السيرة والتحليل والرسائل التحفيزية.",
       items: [
         {
           title: "سيرة ذاتية مخصصة",
@@ -73,8 +69,7 @@ export const translations = {
     },
     pricing: {
       title: "اختر الخطة المناسبة لك",
-      description:
-        "خطط مرنة للباحثين عن العمل والمستقلين والشركات.",
+      description: "خطط مرنة للباحثين عن العمل والمستقلين والشركات.",
       plans: [
         {
           name: "مجانا",
@@ -490,3 +485,5 @@ export const translations = {
     },
   },
 } as const;
+
+export type Translations = (typeof translations)[Language];
