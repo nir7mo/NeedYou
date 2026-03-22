@@ -5,9 +5,43 @@ type Props = {
   searchParams: Promise<{ plan?: string }>;
 };
 
+const planContent = {
+  free: {
+    title: "ابدأ بالخطة المجانية",
+    description:
+      "هذه الخطة مناسبة لتجربة المنصة والانطلاق بأبسط الأدوات. راجع التفاصيل ثم فعّلها مباشرة بدون أي دفع.",
+    cta: "تفعيل الخطة",
+    summaryTitle: "ملخص الخطة",
+    totalLabel: "إجمالي اليوم",
+    billingLabel: "نوع التفعيل",
+    footerNote: "يمكنك الترقية لاحقًا إلى الخطة الاحترافية أو خطة الشريك عند الحاجة.",
+  },
+  professional: {
+    title: "راجع اشتراك الخطة الاحترافية",
+    description:
+      "هذه الخطوة الأخيرة قبل الانتقال إلى صفحة الدفع. راجع الفوترة وأهم المزايا حتى تكمل العملية وأنت مطمئن.",
+    cta: "متابعة إلى الدفع",
+    summaryTitle: "ملخص الفاتورة",
+    totalLabel: "إجمالي اليوم",
+    billingLabel: "نوع الفوترة",
+    footerNote: "يمكنك العودة ومراجعة جميع الخطط قبل إتمام عملية الدفع.",
+  },
+  partner: {
+    title: "راجع اشتراك خطة الشريك",
+    description:
+      "هذه الخطة موجهة للاستخدام التجاري وإدارة عدة مترشحين. راجع التفاصيل قبل المتابعة إلى صفحة الدفع.",
+    cta: "متابعة إلى الدفع",
+    summaryTitle: "ملخص الفاتورة",
+    totalLabel: "إجمالي اليوم",
+    billingLabel: "نوع الفوترة",
+    footerNote: "هذه الخطة مناسبة للعمل التجاري والمستقلين ومكاتب الخدمات.",
+  },
+} as const;
+
 export default async function CheckoutPage({ searchParams }: Props) {
   const params = await searchParams;
   const plan = getPlanByKey(params.plan ?? null);
+  const content = planContent[plan.key];
   const featuredBenefits = plan.features.slice(0, 6);
   const quickReasons = plan.features.slice(0, 3);
 
@@ -31,8 +65,8 @@ export default async function CheckoutPage({ searchParams }: Props) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.16),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(15,118,110,0.12),transparent_30%),linear-gradient(180deg,#f8fbfb_0%,#f8fafc_100%)]" />
 
         <div className="container relative">
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_380px]">
-            <section className="relative overflow-hidden rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-sm sm:p-8 lg:p-9">
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1.18fr)_360px]">
+            <section className="relative overflow-hidden rounded-[32px] border border-white/70 bg-white/92 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-sm sm:p-8 lg:p-9">
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-emerald-500 via-teal-600 to-slate-900" />
 
               <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-extrabold text-emerald-800">
@@ -40,12 +74,11 @@ export default async function CheckoutPage({ searchParams }: Props) {
               </span>
 
               <div className="mt-5 max-w-3xl">
-                <h1 className="text-2xl font-black leading-[1.2] text-slate-950 sm:text-4xl lg:text-[3.3rem]">
-                  فعّل خطة {plan.name} وابدأ التقديم بصورة أكثر احترافية
+                <h1 className="text-2xl font-black leading-[1.15] text-slate-950 sm:text-4xl lg:text-5xl">
+                  {content.title}
                 </h1>
-                <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
-                  راجع تفاصيل الخطة والفوترة وأهم المزايا قبل الانتقال إلى صفحة
-                  الدفع، حتى تكمل العملية وأنت مطمئن وواضح أمامك كل ما ستحصل عليه.
+                <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+                  {content.description}
                 </p>
               </div>
 
@@ -55,7 +88,9 @@ export default async function CheckoutPage({ searchParams }: Props) {
                   <div className="mt-2 text-xl font-black text-slate-950">{plan.name}</div>
                 </div>
                 <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
-                  <div className="text-sm font-bold text-slate-500">الفوترة</div>
+                  <div className="text-sm font-bold text-slate-500">
+                    {plan.key === "free" ? "مدة الاستخدام" : "الفوترة"}
+                  </div>
                   <div className="mt-2 text-xl font-black text-slate-950">{plan.period}</div>
                 </div>
                 <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4 sm:col-span-2 xl:col-span-1">
@@ -109,7 +144,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link href="/checkout/success" className="btn btn-primary w-full sm:w-auto">
-                  متابعة إلى الدفع
+                  {content.cta}
                 </Link>
                 <Link href="/pricing" className="btn btn-light w-full sm:w-auto">
                   العودة إلى الأسعار
@@ -117,7 +152,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
               </div>
 
               <p className="mt-4 text-sm font-semibold text-slate-500">
-                يمكنك العودة ومراجعة جميع الخطط قبل إتمام العملية.
+                {content.footerNote}
               </p>
             </section>
 
@@ -127,7 +162,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
 
                 <div className="relative">
                   <div className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-emerald-100 backdrop-blur">
-                    ملخص الفاتورة
+                    {content.summaryTitle}
                   </div>
 
                   <div className="mt-5 rounded-[28px] border border-white/10 bg-white/10 p-5 backdrop-blur">
@@ -136,7 +171,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
                     <div className="mt-2 text-sm leading-7 text-slate-200">{plan.subtitle}</div>
 
                     <div className="mt-6 rounded-[22px] border border-white/10 bg-slate-950/20 p-4">
-                      <div className="text-sm font-bold text-emerald-100">السعر</div>
+                      <div className="text-sm font-bold text-emerald-100">القيمة</div>
                       <div className="mt-2 flex items-end justify-between gap-4">
                         <div className="text-3xl font-black sm:text-4xl">{plan.price}</div>
                         <div className="text-sm font-semibold text-slate-200">{plan.period}</div>
@@ -146,17 +181,17 @@ export default async function CheckoutPage({ searchParams }: Props) {
 
                   <div className="mt-5 space-y-3 rounded-[24px] border border-white/10 bg-slate-950/25 p-5">
                     <div className="flex items-center justify-between gap-3 text-sm">
-                      <span className="text-slate-300">إجمالي اليوم</span>
+                      <span className="text-slate-300">{content.totalLabel}</span>
                       <span className="text-lg font-black text-white sm:text-xl">{plan.price}</span>
                     </div>
                     <div className="flex items-center justify-between gap-3 text-sm">
-                      <span className="text-slate-300">نوع الفوترة</span>
+                      <span className="text-slate-300">{content.billingLabel}</span>
                       <span className="font-bold text-emerald-100">{plan.period}</span>
                     </div>
                   </div>
 
                   <Link href="/checkout/success" className="btn btn-primary btn-block mt-6">
-                    تأكيد ومتابعة
+                    {content.cta}
                   </Link>
                 </div>
               </section>
