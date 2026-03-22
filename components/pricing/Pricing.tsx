@@ -30,7 +30,7 @@ export default function Pricing() {
               <h3>{plan.name}</h3>
               {subtitle && <div className="price-subtitle">{subtitle}</div>}
               <div className="price">{plan.price}</div>
-              <div className="period">{plan.period}</div>
+              {plan.period && <div className="period">{plan.period}</div>}
               <ul>
                 {plan.features.map((item) => (
                   <li key={item}>{item}</li>
