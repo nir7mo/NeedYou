@@ -1,6 +1,6 @@
 export type Language = "ar" | "fr" | "en";
 
-export type Translations = typeof translations.ar;
+export type Translations = (typeof translations)[Language];
 
 export const translations = {
   ar: {
