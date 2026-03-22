@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root{
   --primary:#0f766e;
   --primary-2:#0a5c56;
@@ -30,6 +32,26 @@ a{text-decoration:none;color:inherit}
 button,input,select,textarea{font-family:inherit}
 img{display:block;max-width:100%}
 .container{width:min(1180px,calc(100% - 32px));margin:auto}
+.page{padding:80px 0}
+.page-head{margin-bottom:32px}
+.page-head h1{font-size:32px;font-weight:900;margin-bottom:8px}
+.page-head p{color:var(--muted)}
+.input{
+  width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;
+  padding:12px 14px;font-size:14px;outline:none;
+}
+.input:focus{border-color:rgba(15,118,110,.45);box-shadow:0 0 0 4px rgba(15,118,110,.08)}
+.text-muted{color:var(--muted)}
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:999px;background:var(--soft);color:var(--primary);
+  padding:6px 12px;font-size:12px;font-weight:700;
+}
+.pill{
+  border:1px solid var(--line);border-radius:999px;padding:8px 16px;
+  font-weight:700;background:#fff;cursor:pointer;
+}
+.pill-active{background:var(--primary);color:#fff;border-color:var(--primary)}
 
 /* NAV */
 .nav{
