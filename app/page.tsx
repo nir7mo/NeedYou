@@ -235,53 +235,6 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="card">
-              <img
-                className="feature-image"
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
-                alt="تعدد اللغات"
-              />
-              <div className="icon-box">🌍</div>
-              <h3>تعدد اللغات</h3>
-              <p>إعداد ملفاتك المهنية بالعربية والفرنسية والإنجليزية بسهولة.</p>
-              <ul className="list">
-                <li>دعم كامل للكتابة من اليمين لليسار</li>
-                <li>تحويل سريع بين اللغات</li>
-                <li>صياغة لغوية احترافية</li>
-              </ul>
-            </div>
-
-            <div className="card">
-              <img
-                className="feature-image"
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-                alt="بورتفوليو احترافي"
-              />
-              <div className="icon-box">⚡</div>
-              <h3>بورتفوليو احترافي</h3>
-              <p>أنشئ صفحة أعمالك في دقائق مع قوالب جذابة واحترافية.</p>
-              <ul className="list">
-                <li>تصميم عصري متجاوب</li>
-                <li>قابل للمشاركة والتحميل</li>
-                <li>استعراض مشاريعك بسرعة</li>
-              </ul>
-            </div>
-
-            <div className="card">
-              <img
-                className="feature-image"
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
-                alt="التحضير للمقابلة"
-              />
-              <div className="icon-box">🎯</div>
-              <h3>التحضير للمقابلات</h3>
-              <p>إرشادات وتجارب تدريبية لتحسين أداءك خلال المقابلات.</p>
-              <ul className="list">
-                <li>أسئلة شائعة ومخصصة</li>
-                <li>إجابة نموذجية وتحسينات</li>
-                <li>بناء الثقة والاحتراف</li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
