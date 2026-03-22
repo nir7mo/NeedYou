@@ -1,11 +1,87 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+type Language = "ar" | "fr" | "en";
+
+const heroTranslations = {
+  ar: {
+    badge: "مساعدك الذكي في التوظيف",
+    title: "أنشئ سيرة ذاتية احترافية مخصصة لكل وظيفة، وارفَع فرصك في القبول بثقة أكبر",
+    description:
+      "NeedYou منصة SaaS ذكية تساعد الباحثين عن العمل على بناء ملف مهني متكامل، إنشاء سير ذاتية مخصصة لكل وظيفة، تحليل مدى التوافق مع متطلبات التوظيف، كتابة الرسائل التحفيزية، وتجهيز بروفايل مهني قابل للمشاركة — كل ذلك من مكان واحد وبعدة لغات.",
+    primaryCta: "جرّب المنصة الآن",
+    secondaryCta: "اكتشف كيف تعمل",
+    langLabels: {
+      ar: "العربية",
+      fr: "Français",
+      en: "English",
+    },
+    nav: {
+      services: "الخدمات",
+      how: "كيف يعمل",
+      product: "المنصة",
+      pricing: "الأسعار",
+      faq: "الأسئلة الشائعة",
+      cta: "ابدأ الآن",
+    },
+  },
+  fr: {
+    badge: "Votre assistant intelligent de recrutement",
+    title: "Créez un CV professionnel adapté à chaque poste et augmentez vos chances d’acceptation en toute confiance",
+    description:
+      "NeedYou est une plateforme SaaS intelligente qui aide les candidats à bâtir un profil professionnel complet, créer des CV sur mesure pour chaque poste, analyser la compatibilité avec les exigences de recrutement, rédiger des lettres de motivation et préparer un profil partageable — le tout depuis un seul endroit et en plusieurs langues.",
+    primaryCta: "Essayer la plateforme",
+    secondaryCta: "Voir le fonctionnement",
+    langLabels: {
+      ar: "العربية",
+      fr: "Français",
+      en: "English",
+    },
+    nav: {
+      services: "Services",
+      how: "Comment ça marche",
+      product: "Plateforme",
+      pricing: "Tarifs",
+      faq: "FAQ",
+      cta: "Commencer",
+    },
+  },
+  en: {
+    badge: "Your smart hiring assistant",
+    title: "Create a professional resume tailored to each job and raise your chances of acceptance with confidence",
+    description:
+      "NeedYou is an intelligent SaaS platform that helps job seekers build a complete professional profile, generate tailored resumes for each role, analyze fit with hiring requirements, write cover letters, and prepare a shareable professional profile — all in one place and across multiple languages.",
+    primaryCta: "Try the platform",
+    secondaryCta: "See how it works",
+    langLabels: {
+      ar: "العربية",
+      fr: "Français",
+      en: "English",
+    },
+    nav: {
+      services: "Services",
+      how: "How It Works",
+      product: "Platform",
+      pricing: "Pricing",
+      faq: "FAQ",
+      cta: "Get Started",
+    },
+  },
+} as const;
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activePanel, setActivePanel] = useState("profile");
   const [score, setScore] = useState(78);
+  const [language, setLanguage] = useState<Language>("ar");
+
+  useEffect(() => {
+    const storedLanguage = window.localStorage.getItem("needyou-lang");
+    if (storedLanguage === "ar" || storedLanguage === "fr" || storedLanguage === "en") {
+      setLanguage(storedLanguage);
+    }
+  }, []);
 
   const handleSwitchPanel = (panel: string) => {
     setActivePanel(panel);
@@ -25,8 +101,15 @@ export default function Home() {
 
   const scoreBarStyle = useMemo(() => ({ width: `${score}%` }), [score]);
 
+  useEffect(() => {
+    window.localStorage.setItem("needyou-lang", language);
+  }, [language]);
+
+  const heroCopy = heroTranslations[language];
+  const dir = language === "ar" ? "rtl" : "ltr";
+
   return (
-    <main>
+    <main dir={dir} className={dir === "rtl" ? "rtl" : "ltr"}>
       <header className="nav">
         <div className="container nav-inner">
           <div className="logo">need<span>you</span></div>
@@ -39,12 +122,12 @@ export default function Home() {
             ☰
           </button>
           <nav className={`nav-links ${menuOpen ? "show" : ""}`} id="navLinks">
-            <a href="#services">الخدمات</a>
-            <a href="#how">كيف يعمل</a>
-            <a href="#product">المنصة</a>
-            <a href="#pricing">الأسعار</a>
-            <a href="#faq">الأسئلة الشائعة</a>
-            <a href="#dashboard" className="btn btn-primary">ابدأ الآن</a>
+            <a href="#services">{heroCopy.nav.services}</a>
+            <a href="#how">{heroCopy.nav.how}</a>
+            <a href="#product">{heroCopy.nav.product}</a>
+            <a href="#pricing">{heroCopy.nav.pricing}</a>
+            <a href="#faq">{heroCopy.nav.faq}</a>
+            <a href="#dashboard" className="btn btn-primary">{heroCopy.nav.cta}</a>
           </nav>
         </div>
       </header>
@@ -52,43 +135,35 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <div className="badge">مساعدك الخبير في التوظيف</div>
-            <h1>
-              أنشئ <span className="highlight">سيرة ذاتية مخصصة</span>
-              لكل وظيفة وطوّر فرص قبولك
-            </h1>
-            <p>
-              needyou منصة احترافية تساعد الباحثين عن العمل على إعداد سيرة ذاتية مخصصة،
-              تحليل التوافق مع الوظائف، كتابة الرسائل التحفيزية، وبناء البورتفوليو
-              من مكان واحد وبالعربية والفرنسية والإنجليزية.
-            </p>
+            <div className="badge">{heroCopy.badge}</div>
+            <h1>{heroCopy.title}</h1>
+            <p>{heroCopy.description}</p>
             <div className="hero-actions">
-              <a href="#dashboard" className="btn btn-primary">جرّب المنصة الآن</a>
-              <a href="#how" className="btn btn-soft">اكتشف كيف تعمل</a>
+              <a href="#dashboard" className="btn btn-primary">{heroCopy.primaryCta}</a>
+              <a href="#how" className="btn btn-soft">{heroCopy.secondaryCta}</a>
             </div>
             <div className="langs">
-              <span className="lang-pill">العربية</span>
-              <span className="lang-pill">Français</span>
-              <span className="lang-pill">English</span>
-            </div>
-
-            <div className="hero-stats">
-              <div className="stat">
-                <strong>سير احترافية</strong>
-                <span>مخصصة لكل وظيفة وبجودة قابلة للمراجعة</span>
-              </div>
-              <div className="stat">
-                <strong>رضا المستخدمين</strong>
-                <span>مبني على ملاحظات حقيقية وتحسينات مستمرة</span>
-              </div>
-              <div className="stat">
-                <strong>دعم سريع</strong>
-                <span>استجابة واضحة مع متابعة حتى اكتمال الطلب</span>
-              </div>
-              <div className="stat">
-                <strong>قوالب حديثة</strong>
-                <span>متوافقة مع ATS وفق أفضل الممارسات</span>
-              </div>
+              <button
+                type="button"
+                className={`lang-pill ${language === "ar" ? "active" : ""}`}
+                onClick={() => setLanguage("ar")}
+              >
+                {heroCopy.langLabels.ar}
+              </button>
+              <button
+                type="button"
+                className={`lang-pill ${language === "fr" ? "active" : ""}`}
+                onClick={() => setLanguage("fr")}
+              >
+                {heroCopy.langLabels.fr}
+              </button>
+              <button
+                type="button"
+                className={`lang-pill ${language === "en" ? "active" : ""}`}
+                onClick={() => setLanguage("en")}
+              >
+                {heroCopy.langLabels.en}
+              </button>
             </div>
           </div>
 
@@ -97,14 +172,6 @@ export default function Home() {
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80"
               alt="لوحة عمل احترافية"
             />
-            <div className="floating top">
-              <h4>تقييم سريع للسيرة</h4>
-              <p>احصل على تقييم مباشر مع اقتراحات دقيقة لتحسين نتائجك.</p>
-            </div>
-            <div className="floating bottom">
-              <h4>واجهة عربية بالكامل</h4>
-              <p>تجربة مريحة مع تصميم عصري متوافق مع العربية والفرنسية.</p>
-            </div>
           </div>
         </div>
       </section>

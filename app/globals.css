@@ -118,6 +118,14 @@ img{display:block;max-width:100%}
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.16);
   color:#edf2ff;font-size:13px;font-weight:700;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.lang-pill:hover{background:rgba(255,255,255,.16)}
+.lang-pill.active{
+  background:#fff;color:var(--primary);
+  border-color:rgba(255,255,255,.6);
+  box-shadow:0 10px 22px rgba(67,97,238,.18);
 }
 
 .hero-card{
@@ -128,6 +136,12 @@ img{display:block;max-width:100%}
 .hero-card img{
   height:520px;width:100%;object-fit:cover;border-radius:20px;
 }
+
+.rtl{direction:rtl}
+.rtl .nav-inner{flex-direction:row-reverse}
+.rtl .nav-links{flex-direction:row-reverse}
+.rtl .hero,.rtl .section-head{text-align:right}
+.rtl .hero-actions{justify-content:flex-start}
 .floating{
   position:absolute;background:#fff;color:var(--text);border-radius:18px;
   padding:14px 16px;box-shadow:var(--shadow);border:1px solid #edf1ff;max-width:220px;
