@@ -1,6 +1,146 @@
 export type Language = "ar" | "fr" | "en";
 
-export const translations = {
+export type Translations = {
+  nav: {
+    how: string;
+    features: string;
+    pricing: string;
+    faq: string;
+    cta: string;
+  };
+  hero: {
+    badge: string;
+    title: string;
+    description: string;
+    primaryCta: string;
+    secondaryCta: string;
+    language: string;
+    langLabels: { ar: string; fr: string; en: string };
+  };
+  how: {
+    title: string;
+    description: string;
+    steps: { title: string; description: string }[];
+  };
+  features: {
+    title: string;
+    description: string;
+    items: { title: string; description: string }[];
+  };
+  pricing: {
+    title: string;
+    description: string;
+    plans: {
+      name: string;
+      price: string;
+      period: string;
+      features: string[];
+      cta: string;
+      popular?: string;
+    }[];
+  };
+  faq: {
+    title: string;
+    description: string;
+    items: { q: string; a: string }[];
+  };
+  footer: {
+    tagline: string;
+    rights: string;
+  };
+  auth: {
+    login: {
+      title: string;
+      description: string;
+      email: string;
+      password: string;
+      cta: string;
+      hint: string;
+    };
+    signup: {
+      title: string;
+      description: string;
+      name: string;
+      email: string;
+      password: string;
+      cta: string;
+      hint: string;
+    };
+    verify: {
+      title: string;
+      description: string;
+      code: string;
+      cta: string;
+    };
+  };
+  profile: {
+    title: string;
+    description: string;
+    sections: {
+      basic: string;
+      experience: string;
+      skills: string;
+      education: string;
+      projects: string;
+      languages: string;
+      achievements: string;
+      uploads: string;
+    };
+    placeholders: {
+      fullName: string;
+      title: string;
+      email: string;
+      phone: string;
+      location: string;
+      summary: string;
+      list: string;
+    };
+    uploads: {
+      cv: string;
+      certificates: string;
+      portfolio: string;
+    };
+    save: string;
+    preview: string;
+  };
+  job: {
+    title: string;
+    description: string;
+    form: {
+      title: string;
+      description: string;
+      link: string;
+      company: string;
+      recruiter: string;
+      analyze: string;
+    };
+    analysis: {
+      title: string;
+      skills: string;
+      experience: string;
+      keywords: string;
+    };
+    match: {
+      title: string;
+      strengths: string;
+      missing: string;
+      suggestions: string;
+    };
+    template: {
+      title: string;
+    };
+    cv: {
+      title: string;
+      highlights: string;
+      experience: string;
+    };
+    cover: {
+      title: string;
+    };
+  };
+};
+
+export const translations: Record<Language, Translations> = {
   ar: {
     nav: {
       how: "كيف يعمل",
@@ -679,6 +819,4 @@ export const translations = {
       },
     },
   },
-} as const;
-
-export type Translations = (typeof translations)[Language];
+};
