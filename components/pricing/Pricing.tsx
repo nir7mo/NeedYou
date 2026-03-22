@@ -15,10 +15,20 @@ export default function Pricing() {
         <div className="pricing-cards">
           {t.pricing.plans.map((plan) => {
             const popular = "popular" in plan ? plan.popular : undefined;
+            const subtitle = "subtitle" in plan ? plan.subtitle : undefined;
+            const note = "note" in plan ? plan.note : undefined;
+            const tone = "tone" in plan ? plan.tone : undefined;
+            const buttonClass =
+              tone === "primary"
+                ? "btn btn-primary btn-block"
+                : tone === "business"
+                ? "btn btn-light btn-block business-btn"
+                : "btn btn-light btn-block";
             return (
             <div className={`price-card ${popular ? "featured" : ""}`} key={plan.name}>
               {popular && <div className="popular">{popular}</div>}
               <h3>{plan.name}</h3>
+              {subtitle && <div className="price-subtitle">{subtitle}</div>}
               <div className="price">{plan.price}</div>
               <div className="period">{plan.period}</div>
               <ul>
@@ -26,7 +36,8 @@ export default function Pricing() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <button className="btn btn-light btn-block">{plan.cta}</button>
+              {note && <div className="plan-note">{note}</div>}
+              <button className={buttonClass}>{plan.cta}</button>
             </div>
           )})}
         </div>
