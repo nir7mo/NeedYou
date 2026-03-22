@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>فرصتك — منصة التوظيف الذكية</title>
+  <title>فرصتك | منصة التوظيف الذكية</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -496,7 +496,7 @@
 <section class="pricing">
   <div class="section-header">
     <div class="section-tag">💳 الأسعار</div>
-    <h2>ابدأ مجاناً — ادفع لما تكون جاهزاً</h2>
+    <h2>ابدأ مجاناً | ادفع لما تكون جاهزاً</h2>
     <p>لا بطاقة بنكية مطلوبة للبدء</p>
   </div>
   <div class="pricing-cards">
@@ -542,7 +542,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="logo">فرصتك<span>.</span></div>
-  <p>© 2025 فرصتك — منصة التوظيف الذكية في الجزائر</p>
+  <p>© 2025 فرصتك | منصة التوظيف الذكية في الجزائر</p>
   <p style="margin-top:8px;">مدعومة بالذكاء الاصطناعي 🤖 | الجزائر 🇩🇿</p>
 </footer>
 
